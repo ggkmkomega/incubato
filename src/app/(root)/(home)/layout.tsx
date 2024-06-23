@@ -1,12 +1,10 @@
 import React from "react";
 import NavBar from "~/components/NavBar";
 import SideBar from "~/components/SideBar";
-import { ModeToggle } from "~/components/ThemeToggle";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="relative">
-      <ModeToggle />
       <NavBar />
       <div className="flex">
         <SideBar />

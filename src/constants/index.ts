@@ -13,17 +13,17 @@ export const sideBarLinks: SideBarLink[] = [
   {
     label: `Upcoming`,
     imgUrl: `/icons/upcoming.svg`,
-    route: `/Upcoming`,
+    route: `/upcoming`,
   },
   {
     label: `Previous`,
     imgUrl: `/icons/previous.svg`,
-    route: `/Previous`,
+    route: `/previous`,
   },
   {
     label: `Recordings`,
     imgUrl: `/icons/Video.svg`,
-    route: `/Recordings`,
+    route: `/recordings`,
   },
   {
     label: `Personal Room`,
