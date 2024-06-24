@@ -16,7 +16,7 @@ export const postRouter = createTRPCRouter({
     }),
 
   maybe: protectedProcedure.query(({ ctx }) => {
-    return `you are ${ctx.user.firstName} ${ctx.user.lastName}`;
+    return `you are ${ctx.user.firstName} ${JSON.stringify(ctx.session)}`;
   }),
 
   getLatest: publicProcedure.query(({ ctx }) => {
