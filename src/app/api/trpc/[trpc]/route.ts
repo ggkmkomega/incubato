@@ -14,6 +14,7 @@ const createContext = async (req: NextRequest) => {
   const auth = getAuth(req);
 
   return createTRPCContext({
+    headers: req.headers,
     auth: auth,
   });
 };
