@@ -6,11 +6,10 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const NavBar = () => {
   return (
-    <nav className="flex-between z-50 flex w-full bg-accent px-6 py-4">
+    <nav className="flex-between z-50  w-full bg-accent px-6 py-4">
       <Link href="/" className="flex items-center gap-1 ">
         <p className="text-[26px] font-extrabold max-sm:hidden">Dz Incubato</p>
       </Link>
-      <ModeToggle />
 
       <div className="flex-between gap-5">
         <SignedOut>
@@ -19,8 +18,9 @@ const NavBar = () => {
         <SignedIn>
           <UserButton />
         </SignedIn>
+        <ModeToggle />
+        <MobileNav />
       </div>
-      <MobileNav />
     </nav>
   );
 };

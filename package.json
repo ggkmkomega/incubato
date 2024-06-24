@@ -1,5 +1,5 @@
 {
-  "name": "Incubato",
+  "name": "test",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -14,12 +14,10 @@
     "start": "next start"
   },
   "dependencies": {
-    "@auth/drizzle-adapter": "^1.1.0",
     "@clerk/nextjs": "^5.1.6",
     "@libsql/client": "^0.6.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
-    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@t3-oss/env-nextjs": "^0.10.1",
     "@tanstack/react-query": "^5.39.0",

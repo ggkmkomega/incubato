@@ -6,33 +6,28 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-
+import {
+  clerkClient,
+  type ClerkMiddlewareAuthObject,
+} from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
+type ExcludeKnownProps<T> = {
+  [P in keyof T as Exclude<P, "protect" | "redirectToSignIn">]: T[P];
+};
 
-/**
- * 1. CONTEXT
- *
- * This section defines the "contexts" that are available in the backend API.
- *
- * These allow you to access things when processing a request, like the database, the session, etc.
- *
- * This helper generates the "internals" for a tRPC context. The API handler and RSC clients each
- * wrap this and provides the required context.
- *
- * @see https://trpc.io/docs/server/context
- */
-export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const session = await getServerAuthSession();
-
+// Attempt to reconstruct AuthObject (theoretical and might not perfectly match the original AuthObject)
+type ReconstructedAuthObject = ExcludeKnownProps<ClerkMiddlewareAuthObject>;
+interface AuthContext {
+  auth: ReconstructedAuthObject;
+}
+export const createTRPCContext = async ({ auth }: AuthContext) => {
   return {
     db,
-    session,
-    ...opts,
+    auth,
   };
 };
 
@@ -56,7 +51,19 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
     };
   },
 });
+const isAuthed = t.middleware(async ({ next, ctx }) => {
+  if (!ctx.auth.userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  const user = await clerkClient.users.getUser(ctx.auth.userId);
 
+  return next({
+    ctx: {
+      session: ctx.auth,
+      user: user,
+    },
+  });
+});
 /**
  * Create a server-side caller.
  *
@@ -86,23 +93,4 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
-
-/**
- * Protected (authenticated) procedure
- *
- * If you want a query or mutation to ONLY be accessible to logged in users, use this. It verifies
- * the session is valid and guarantees `ctx.session.user` is not null.
- *
- * @see https://trpc.io/docs/procedures
- */
-export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
-  return next({
-    ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
-  });
-});
+export const protectedProcedure = t.procedure.use(isAuthed);
