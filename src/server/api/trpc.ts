@@ -23,10 +23,12 @@ type ExcludeKnownProps<T> = {
 type ReconstructedAuthObject = ExcludeKnownProps<ClerkMiddlewareAuthObject>;
 interface AuthContext {
   auth: ReconstructedAuthObject;
+  headers: Headers;
 }
-export const createTRPCContext = async ({ auth }: AuthContext) => {
+export const createTRPCContext = async ({ auth, headers }: AuthContext) => {
   return {
     db,
+    headers,
     auth,
   };
 };
