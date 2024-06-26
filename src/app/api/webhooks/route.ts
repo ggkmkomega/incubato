@@ -54,5 +54,5 @@ export async function POST(req: Request) {
     console.log("user:", evt.data);
   }
 
-  return new Response("", { status: 200 });
+  return new Response(JSON.stringify(evt.data), { status: 200 });
 }
