@@ -32,7 +32,7 @@ const FeaturesList = () => {
       <Feature
         icon={UserRoundPlus}
         subtitle="Join a Scheduled Meeting"
-        title="Join a Scheduled Meeting "
+        title="Join a  Meeting "
         hadnleClick={() => setMeetingState("isJoiningScheduleMeeting")}
         className="bg-purple-600"
       />
