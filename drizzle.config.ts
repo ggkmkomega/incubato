@@ -3,9 +3,10 @@ import { env } from "~/env";
 
 export default {
   schema: "./src/server/db/schema.ts",
+  schemaFilter: "./src/server/db/schema.ts",
   dialect: "postgresql",
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["testPG_*"],
+  // tablesFilter: ["testPG_*"],
 } satisfies Config;
