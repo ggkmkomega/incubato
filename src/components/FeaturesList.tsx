@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Feature from "./Feature";
 import { Plus, UserRoundPlus, Link, Video, CookingPot } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ScheduleMeetingModal from "./ScheduleMeetingModal";
 
 const FeaturesList = () => {
   const router = useRouter();
@@ -10,7 +11,6 @@ const FeaturesList = () => {
     | "isRequestingMeeting"
     | "isJoiningMeeting"
     | "isJoiningScheduleMeeting"
-    | "isInstantMeeting"
     | undefined
   >();
   return (
@@ -49,6 +49,10 @@ const FeaturesList = () => {
         title="Cooming Soon"
         hadnleClick={() => null}
         className="bg-lime-600"
+      />
+      <ScheduleMeetingModal
+        isOpen={meetingState === "isRequestingMeeting"}
+        onClose={() => setMeetingState(undefined)}
       />
     </section>
   );

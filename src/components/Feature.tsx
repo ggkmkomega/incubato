@@ -10,13 +10,17 @@ interface FeatureProps {
   className: string;
 }
 
-const Feature = ({ title, subtitle, icon, className }: FeatureProps) => {
+const Feature = ({
+  title,
+  subtitle,
+  icon,
+  className,
+  hadnleClick,
+}: FeatureProps) => {
   const Icon = icon;
   return (
     <div
-      onClick={() => {
-        console.log("clicked");
-      }}
+      onClick={hadnleClick}
       className={cn(
         "flex min-h-[260px] w-full cursor-pointer flex-col justify-between rounded-[14px] px-4 py-6 xl:max-w-[270px]",
         className,
