@@ -218,7 +218,7 @@ const ScheduleMeetingModal = ({
                   <FormLabel>Subject of the meet:</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us a little bit about Your Idea"
+                      placeholder="Tell us a little bit about what u want to discuss"
                       className="resize-none"
                       {...field}
                     />

@@ -3,6 +3,7 @@ import {
   Newspaper,
   Handshake,
   GraduationCap,
+  Gauge,
   type Icon as LucideIcon,
 } from "lucide-react";
 
@@ -13,4 +14,5 @@ export const Icons = {
   GeneralMeet: Newspaper,
   One: Handshake,
   thesis: GraduationCap,
+  dashboard: Gauge,
 };

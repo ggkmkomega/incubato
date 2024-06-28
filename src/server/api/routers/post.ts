@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -6,7 +8,11 @@ import {
 import { user } from "~/server/db/schema";
 
 export const postRouter = createTRPCRouter({
-  testDb: publicProcedure.mutation(async ({ ctx }) => {
-    await ctx.db.insert(user).values({ name: "Sdsd" });
-  }),
+  hello: publicProcedure
+    .input(z.object({ text: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.db.insert(user).values({
+        name: input.text,
+      });
+    }),
 });
