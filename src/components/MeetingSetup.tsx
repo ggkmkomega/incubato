@@ -22,13 +22,16 @@ const MeetingSetup = ({
     notFound();
   }
   useEffect(() => {
-    if (isMicCamToggled) {
-      call?.camera.disable();
-      call?.microphone.disable();
-    } else {
-      call?.camera.enable();
-      call?.microphone.enable();
-    }
+    const toggleMicAndCam = async () => {
+      if (isMicCamToggled) {
+        await call?.camera.disable();
+        await call?.microphone.disable();
+      } else {
+        await call?.camera.enable();
+        await call?.microphone.enable();
+      }
+    };
+    toggleMicAndCam();
   }, [isMicCamToggled, call?.camera, call?.microphone]);
 
   return (

@@ -22,7 +22,7 @@ const NavBar = ({ admin }: NavbarProps) => {
           <UserButton />
         </SignedIn>
         <ModeToggle />
-        <MobileNav />
+        <MobileNav admin />
       </div>
     </nav>
   );

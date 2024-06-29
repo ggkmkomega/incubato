@@ -13,8 +13,11 @@ import { sideBarLinks } from "~/constants";
 import { usePathname } from "next/navigation";
 import { cn } from "~/lib/utils";
 import Image from "next/image";
-
-const MobileNav = () => {
+import { Icons } from "./icons";
+interface MobileNavProps {
+  admin?: boolean;
+}
+const MobileNav = ({ admin }: MobileNavProps) => {
   const pathname = usePathname();
   return (
     <section className="w-full max-w-[264px]">
@@ -57,6 +60,20 @@ const MobileNav = () => {
                     </SheetClose>
                   );
                 })}
+                {admin && (
+                  <Link
+                    className={cn(
+                      "flex w-full max-w-60 items-center gap-4 rounded-lg p-4 font-semibold",
+                      {
+                        "bg-primary": pathname.startsWith("/dashboard"),
+                      },
+                    )}
+                    href="/dashboard"
+                  >
+                    <Icons.dashboard />
+                    Dashboard
+                  </Link>
+                )}
               </section>
             </SheetClose>
           </div>
