@@ -9,7 +9,7 @@ import MeetingRoom from "~/components/MeetingRoom";
 import MeetingSetup from "~/components/MeetingSetup";
 
 const Meeting = ({ params }: { params: { id: string } }) => {
-  const { user, isLoaded } = useUser();
+  const { isLoaded } = useUser();
   const theme = useTheme();
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const { call, isCallLoading } = useGetCallById(params.id);

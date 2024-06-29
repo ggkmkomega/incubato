@@ -8,6 +8,8 @@ import "../styles/StreamTheme.css";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/providers/theme-provider";
 import { Toaster } from "~/components/ui/toaster";
+import { AdminProvider } from "providers/AdminProvider";
+import { checkRole } from "~/lib/roles";
 
 export const metadata = {
   title: "Dz Incubato",
@@ -31,7 +33,10 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              {children} <Toaster />
+              <AdminProvider initialIsAdmin={checkRole("admin")}>
+                {children}
+              </AdminProvider>
+              <Toaster />
             </ThemeProvider>
           </TRPCReactProvider>
         </body>

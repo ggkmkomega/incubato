@@ -1,36 +1,52 @@
+"use client";
+import { useState } from "react";
 import {
   CallControls,
   CallParticipantsList,
   CallStatsButton,
+  CallingState,
   PaginatedGridLayout,
   SpeakerLayout,
+  useCallStateHooks,
 } from "@stream-io/video-react-sdk";
-import React, { useState } from "react";
-import { cn } from "~/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Users, LayoutList } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from "./ui/dropdown-menu";
+import EndCallButton from "./EndCallButton";
+import { cn } from "~/lib/utils";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
-import { checkRole } from "~/lib/roles";
+import Loeader from "./Loeader";
+import { useAdmin } from "providers/AdminProvider";
+
+type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
+
 const MeetingRoom = () => {
-  const [Layout, setLayout] = useState<CallLayoutType>("speaker-left");
-  type CallLayoutType = "speaker-left" | "speaker-right" | "grid";
-  const [ShowParticipant, setShowParticipant] = useState(false);
+  const { isAdmin } = useAdmin();
+  const router = useRouter();
+  const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
+  const [showParticipants, setShowParticipants] = useState(false);
+  const { useCallCallingState } = useCallStateHooks();
+
+  const callingState = useCallCallingState();
+
+  if (callingState !== CallingState.JOINED) return <Loeader />;
 
   const CallLayout = () => {
-    switch (Layout) {
+    switch (layout) {
       case "grid":
         return <PaginatedGridLayout />;
       case "speaker-right":
         return <SpeakerLayout participantsBarPosition="left" />;
       default:
-        return <SpeakerLayout participantsBarPosition="left" />;
+        return <SpeakerLayout participantsBarPosition="right" />;
     }
   };
   return (
@@ -41,27 +57,26 @@ const MeetingRoom = () => {
         </div>
         <div
           className={cn("ml-4 hidden h-[calc(100vh-86px)]", {
-            block: ShowParticipant,
+            block: showParticipants,
           })}
         >
-          <CallParticipantsList onClose={() => setShowParticipant(false)} />
+          <CallParticipantsList onClose={() => setShowParticipants(false)} />
         </div>
       </div>
       <div className="fixed bottom-0 flex w-full items-center justify-center gap-5 overflow-hidden">
-        <CallControls />
+        <CallControls onLeave={() => router.push(`/`)} />
         <DropdownMenu>
           <DropdownMenuTrigger className=" cursor-pointer rounded-2xl bg-primary-foreground px-4 py-2 hover:bg-primary">
             <Icons.LayoutControl />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {["Grid", "speaker-left", "speaker-right"].map((item, index) => (
-              <div>
+              <div key={index}>
                 <DropdownMenuItem
                   className="cursor-pointer"
                   onClick={() => {
                     setLayout(item.toLowerCase() as CallLayoutType);
                   }}
-                  key={index}
                 >
                   {item}
                 </DropdownMenuItem>
@@ -71,13 +86,13 @@ const MeetingRoom = () => {
           </DropdownMenuContent>
         </DropdownMenu>
         <CallStatsButton />
-        <Button onClick={() => setShowParticipant((prev) => !prev)}>
+        <Button onClick={() => setShowParticipants((prev) => !prev)}>
           <div className="cursor-pointer rounded-2xl bg-primary px-4 py-2 hover:bg-primary">
             <Icons.User size={20} />
           </div>
         </Button>
+        {isAdmin && <EndCallButton />}
       </div>
-      {checkRole("admin") && <Button variant={"destructive"}>End Call</Button>}
     </section>
   );
 };
