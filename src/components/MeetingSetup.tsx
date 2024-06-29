@@ -31,6 +31,7 @@ const MeetingSetup = ({
         await call?.microphone.enable();
       }
     };
+    //@typescript-eslint/no-floating-promises
     toggleMicAndCam();
   }, [isMicCamToggled, call?.camera, call?.microphone]);
 
@@ -54,8 +55,8 @@ const MeetingSetup = ({
         </Label>
         <DeviceSettings />
         <Button
-          onClick={() => {
-            call.join();
+          onClick={async () => {
+            await call.join();
             setIsSetupComplete(true);
           }}
           className="rounded-md bg-green-500 px-4 py-2.5"
