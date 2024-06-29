@@ -3,6 +3,7 @@ import React from "react";
 import MobileNav from "./Mobile-nav";
 import { ModeToggle } from "~/components/ThemeToggle";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+
 interface NavbarProps {
   admin?: boolean;
 }

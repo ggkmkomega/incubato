@@ -11,7 +11,6 @@ interface SideBarProps {
 }
 const SideBar = ({ admin }: SideBarProps) => {
   const pathname = usePathname();
-
   return (
     <section className="sticky left-0 flex h-screen w-fit flex-col justify-between bg-accent p-6 pt-12 max-sm:hidden lg:w-[264]">
       <div className="flex flex-1 flex-col gap-6">
@@ -29,12 +28,16 @@ const SideBar = ({ admin }: SideBarProps) => {
                 },
               )}
             >
-              <Image
-                src={link.imgUrl}
-                alt={link.label}
-                width={20}
-                height={20}
-              />
+              {link.icon ? (
+                <link.icon />
+              ) : (
+                <Image
+                  src={link.imgUrl}
+                  alt={link.label}
+                  width={20}
+                  height={20}
+                />
+              )}
               <p className="font-semibold">{link.label}</p>
             </Link>
           );
@@ -54,6 +57,7 @@ const SideBar = ({ admin }: SideBarProps) => {
           </Link>
         )}
       </div>
+      SideBar
     </section>
   );
 };

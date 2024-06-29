@@ -3,16 +3,16 @@ import Dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat"; // ES 2015
 import dayjs from "dayjs";
 import FeaturesList from "~/components/FeaturesList";
+import { checkRole } from "~/lib/roles";
 
 const Home = () => {
   dayjs.extend(advancedFormat);
-
   const currentDate = Dayjs();
   const time = currentDate.format("hh:mm A");
   const date = currentDate.format("dddd, Do YYYY");
   return (
     <section className="flex size-full flex-col gap-10 ">
-      <div className="bg-hero h-[300px] w-full rounded-md bg-cover text-background dark:text-foreground">
+      <div className="h-[300px] w-full rounded-md bg-hero bg-cover text-background dark:text-foreground">
         <div className="flex h-full flex-col justify-between max-md:px-5 max-md:py-8 lg:p-11">
           <h2 className="glassmorphism max-w-[250px] rounded py-2 text-center text-base font-normal">
             Upcoming Meeting : at 14:00 PM
@@ -25,7 +25,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <FeaturesList />
+      <FeaturesList admin={checkRole("admin")} />
     </section>
   );
 };

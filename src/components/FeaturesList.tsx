@@ -1,13 +1,19 @@
 "use client";
 import React, { useState } from "react";
 import Feature from "./Feature";
-import { Plus, UserRoundPlus, Link, Video, CookingPot } from "lucide-react";
+import { Plus, UserRoundPlus, Link, Video, CalendarCheck2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ScheduleMeetingModal from "./ScheduleMeetingModal";
+import MeetingModal from "./MeetingModal";
 
-const FeaturesList = () => {
+const FeaturesList = ({ admin }: { admin?: boolean }) => {
   const router = useRouter();
+
+  const createMeet = () => {
+    console.log("admin Click");
+  };
   const [meetingState, setMeetingState] = useState<
+    | "isAdminStartMeet"
     | "isRequestingMeeting"
     | "isJoiningMeeting"
     | "isJoiningScheduleMeeting"
@@ -15,8 +21,17 @@ const FeaturesList = () => {
   >();
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-5">
+      {admin && (
+        <Feature
+          icon={Plus}
+          subtitle="Start a meet"
+          title="Start a meet"
+          hadnleClick={() => setMeetingState("isRequestingMeeting")}
+          className="bg-rose-600"
+        />
+      )}
       <Feature
-        icon={Plus}
+        icon={CalendarCheck2}
         subtitle="Request a private Meeting"
         title="Schedule a Private Meeting"
         hadnleClick={() => setMeetingState("isRequestingMeeting")}
@@ -43,12 +58,13 @@ const FeaturesList = () => {
         hadnleClick={() => router.push("/recordings")}
         className="bg-yellow-600"
       />
-      <Feature
-        icon={CookingPot}
-        subtitle="Cooming Soon"
-        title="Cooming Soon"
-        hadnleClick={() => null}
-        className="bg-lime-600"
+      <MeetingModal
+        title="Start a meet"
+        className="text-center"
+        buttonText="Start Meeting"
+        handleClick={createMeet}
+        onClose={() => setMeetingState(undefined)}
+        isOpen={meetingState === "isAdminStartMeet"}
       />
       <ScheduleMeetingModal
         isOpen={meetingState === "isRequestingMeeting"}
