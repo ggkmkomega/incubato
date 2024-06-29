@@ -26,7 +26,7 @@ const FeaturesList = ({ admin }: { admin?: boolean }) => {
           icon={Plus}
           subtitle="Start a meet"
           title="Start a meet"
-          hadnleClick={() => setMeetingState("isRequestingMeeting")}
+          hadnleClick={() => setMeetingState("isAdminStartMeet")}
           className="bg-rose-600"
         />
       )}
@@ -56,7 +56,7 @@ const FeaturesList = ({ admin }: { admin?: boolean }) => {
         subtitle="View Recordings"
         title="Check Out Seance Recordings"
         hadnleClick={() => router.push("/recordings")}
-        className="bg-yellow-600"
+        className="bg-lime-600"
       />
       <MeetingModal
         title="Start a meet"
