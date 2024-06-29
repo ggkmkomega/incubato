@@ -2,6 +2,8 @@ import "~/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { GeistSans } from "geist/font/sans";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
+import "../styles/StreamTheme.css";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/providers/theme-provider";

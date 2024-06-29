@@ -1,0 +1,11 @@
+.str-video.dark {
+  --str-video__secondary-color: hsl(var(--background));
+  --str-video__text-color1: hsl(var(--background));
+  --str-video__border-radius-circle: 15px;
+}
+
+.str-video.light {
+  --str-video__secondary-color: hsl(var(--background));
+  --str-video__text-color1: #282b2b;
+  --str-video__border-radius-circle: 15px;
+}
