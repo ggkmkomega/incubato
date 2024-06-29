@@ -31,7 +31,7 @@ const MeetingSetup = ({
         await call?.microphone.enable();
       }
     };
-    //@typescript-eslint/no-floating-promises
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     toggleMicAndCam();
   }, [isMicCamToggled, call?.camera, call?.microphone]);
 
