@@ -60,9 +60,10 @@ const FeaturesList = ({ admin }: { admin?: boolean }) => {
         });
       }
     } catch (error) {
+      const errorText = error as string;
       toast({
         title: "Failed:To Create a meeting",
-        description: "Error Object" + error,
+        description: errorText,
         variant: "destructive",
       });
       console.log("error Create Meet ", error);
