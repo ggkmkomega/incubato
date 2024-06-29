@@ -5,6 +5,7 @@ import { GeistSans } from "geist/font/sans";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/providers/theme-provider";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata = {
   title: "Dz Incubato",
@@ -28,7 +29,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              {children}
+              {children} <Toaster />
             </ThemeProvider>
           </TRPCReactProvider>
         </body>

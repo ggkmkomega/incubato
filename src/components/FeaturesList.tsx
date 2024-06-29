@@ -5,12 +5,68 @@ import { Plus, UserRoundPlus, Link, Video, CalendarCheck2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ScheduleMeetingModal from "./ScheduleMeetingModal";
 import MeetingModal from "./MeetingModal";
+import { useUser } from "@clerk/nextjs";
+import { Call, useStreamVideoClient } from "@stream-io/video-react-sdk";
+import { useToast } from "./ui/use-toast";
+import advancedFormat from "dayjs/plugin/advancedFormat"; // ES 2015
+
+import dayjs from "dayjs";
 
 const FeaturesList = ({ admin }: { admin?: boolean }) => {
-  const router = useRouter();
+  dayjs.extend(advancedFormat);
 
-  const createMeet = () => {
-    console.log("admin Click");
+  const router = useRouter();
+  const { user } = useUser();
+  const client = useStreamVideoClient();
+  const [Values, setValues] = useState({
+    dateTime: new Date(),
+    description: "",
+    link: "/",
+  });
+  const [callDetails, setCallDetails] = useState<Call>();
+  const { toast } = useToast();
+
+  const createMeet = async () => {
+    if (!client || !user) return;
+    try {
+      const id = crypto.randomUUID();
+      const call = client.call("default", id);
+      if (!call) throw new Error("Failed to create a call");
+      const startsAt =
+        Values.dateTime.toISOString() || new Date(Date.now()).toISOString();
+      const description = Values.description ?? "Instant Meet";
+
+      await call.getOrCreate({
+        data: {
+          starts_at: startsAt,
+          custom: {
+            description,
+          },
+        },
+      });
+      setCallDetails(call);
+      if (!Values.dateTime) {
+        toast({
+          title: "Please Select Date and Time",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (!Values.description) {
+        router.push(`/meeting/${call.id}`);
+        toast({
+          title: "Meeting Created",
+          description: dayjs(Values.dateTime).format("dddd, Do YYYY"),
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Failed:To Create a meeting",
+        description: "Error Object" + error,
+        variant: "destructive",
+      });
+      console.log("error Create Meet ", error);
+    }
   };
   const [meetingState, setMeetingState] = useState<
     | "isAdminStartMeet"
