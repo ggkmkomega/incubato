@@ -1,7 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import Feature from "./Feature";
-import { Plus, UserRoundPlus, Link, Video, CalendarCheck2 } from "lucide-react";
+import {
+  Plus,
+  UserRoundPlus,
+  Link,
+  Video,
+  CalendarCheck2,
+  CalendarClock,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import ScheduleMeetingModal from "./ScheduleMeetingModal";
 import MeetingModal from "./MeetingModal";
@@ -11,6 +18,7 @@ import { useToast } from "./ui/use-toast";
 import advancedFormat from "dayjs/plugin/advancedFormat"; // ES 2015
 
 import dayjs from "dayjs";
+import { Toast } from "./ui/toast";
 
 const FeaturesList = ({ admin }: { admin?: boolean }) => {
   dayjs.extend(advancedFormat);
@@ -73,19 +81,28 @@ const FeaturesList = ({ admin }: { admin?: boolean }) => {
     | "isAdminStartMeet"
     | "isRequestingMeeting"
     | "isJoiningMeeting"
-    | "isJoiningScheduleMeeting"
+    | "isAdminScheduleMeeting"
     | undefined
   >();
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-5">
       {admin && (
-        <Feature
-          icon={Plus}
-          subtitle="Start a meet"
-          title="Start a meet"
-          hadnleClick={() => setMeetingState("isAdminStartMeet")}
-          className="bg-rose-600"
-        />
+        <>
+          <Feature
+            icon={Plus}
+            subtitle="Start a meet"
+            title="Start a meet"
+            hadnleClick={() => setMeetingState("isAdminStartMeet")}
+            className="bg-rose-600"
+          />
+          <Feature
+            icon={CalendarClock}
+            subtitle="Scheduled a Meeting"
+            title="Schedule a  Meeting "
+            hadnleClick={() => setMeetingState("isAdminScheduleMeeting")}
+            className="bg-yellow-600"
+          />
+        </>
       )}
       <Feature
         icon={CalendarCheck2}
@@ -105,7 +122,7 @@ const FeaturesList = ({ admin }: { admin?: boolean }) => {
         icon={UserRoundPlus}
         subtitle="Join a Scheduled Meeting"
         title="Join a  Meeting "
-        hadnleClick={() => setMeetingState("isJoiningScheduleMeeting")}
+        hadnleClick={() => router.push("/upcoming")}
         className="bg-purple-600"
       />
       <Feature
@@ -115,6 +132,31 @@ const FeaturesList = ({ admin }: { admin?: boolean }) => {
         hadnleClick={() => router.push("/recordings")}
         className="bg-lime-600"
       />
+      {!callDetails ? (
+        <MeetingModal
+          title="Schedule a meet"
+          handleClick={createMeet}
+          onClose={() => setMeetingState(undefined)}
+          isOpen={meetingState === "isAdminScheduleMeeting"}
+        />
+      ) : (
+        <MeetingModal
+          title="meeting Created"
+          className="text-center"
+          buttonText="Copy
+          Meeting Link"
+          handleClick={createMeet}
+          onClose={() => {
+            //  navigator.clipboard.writeText(meetingLink)
+            Toast({
+              title: "Link Copied",
+            });
+          }}
+          isOpen={meetingState === "isAdminScheduleMeeting"}
+          image="/icons/checked.svg"
+          buttonIcon="/icons/copy.svg"
+        ></MeetingModal>
+      )}
       <MeetingModal
         title="Start a meet"
         className="text-center"
