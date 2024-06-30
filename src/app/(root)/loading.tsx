@@ -1,8 +1,8 @@
 import React from "react";
 import Loeader from "~/components/Loeader";
 
-const Previous = () => {
+const loading = () => {
   return <Loeader />;
 };
 
-export default Previous;
+export default loading;

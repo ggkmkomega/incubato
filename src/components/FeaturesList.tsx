@@ -143,14 +143,13 @@ const FeaturesList = ({ admin }: { admin?: boolean }) => {
         <MeetingModal
           title="meeting Created"
           className="text-center"
-          buttonText="Copy
-          Meeting Link"
+          buttonText="Copy Meeting Link"
           handleClick={createMeet}
           onClose={() => {
             //  navigator.clipboard.writeText(meetingLink)
-            Toast({
-              title: "Link Copied",
-            });
+            // Toast({
+            //   title: "Link Copied",
+            // });
           }}
           isOpen={meetingState === "isAdminScheduleMeeting"}
           image="/icons/checked.svg"
