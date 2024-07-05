@@ -15,6 +15,13 @@
       "when": 1720205596514,
       "tag": "0001_glamorous_hellfire_club",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1720217864453,
+      "tag": "0002_superb_tusk",
+      "breakpoints": true
     }
   ]
 }

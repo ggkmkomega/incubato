@@ -16,6 +16,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import DisplayUsers from "./_display-users";
+import Meetings from "./_display-meetings";
 
 export default async function AdminDashboard(params: {
   searchParams: { search?: string };
@@ -33,9 +34,10 @@ export default async function AdminDashboard(params: {
   return (
     <>
       <Tabs defaultValue="Users">
-        <TabsList className="grid w-[400px] grid-cols-2  ">
+        <TabsList className="grid w-[600px] grid-cols-3  ">
           <TabsTrigger value="Users">Users</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="Private">Private Meetings</TabsTrigger>
+          <TabsTrigger value=""> Meetings</TabsTrigger>
         </TabsList>
         <TabsContent value="Users">
           <Card>
@@ -52,28 +54,11 @@ export default async function AdminDashboard(params: {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="password">
+        <TabsContent value="Private">
           <Card>
-            <CardHeader>
-              <CardTitle>Password</CardTitle>
-              <CardDescription>
-                Change your password here. After saving, you&apos;ll be logged
-                out.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="current">Current password</Label>
-                <Input id="current" type="password" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="new">New password</Label>
-                <Input id="new" type="password" />
-              </div>
+            <CardContent>
+              <Meetings />
             </CardContent>
-            <CardFooter>
-              <Button>Save password</Button>
-            </CardFooter>
           </Card>
         </TabsContent>
       </Tabs>

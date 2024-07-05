@@ -1,0 +1,1 @@
+ALTER TABLE "Incubato_privateMeetings" ADD COLUMN "createdAt" timestamp DEFAULT now() NOT NULL;

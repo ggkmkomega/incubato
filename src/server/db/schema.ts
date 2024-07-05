@@ -1,7 +1,13 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { boolean, pgTableCreator, serial, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgTableCreator,
+  serial,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -26,4 +32,5 @@ export const privateMeetings = createTable("privateMeetings", {
   }),
   subject: varchar("subject", { length: 256 }),
   urgency: boolean("urgency"),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
 });
