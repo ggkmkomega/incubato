@@ -33,16 +33,18 @@ import {
 } from "./ui/select";
 import { Icons } from "./icons";
 import { Switch } from "./ui/switch";
+import { api } from "~/trpc/react";
+import { toast } from "./ui/use-toast";
 interface ScheduleMeetingModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-const PrivateMeetingSchema = z.object({
+export const PrivateMeetingSchema = z.object({
   name: z.string().min(5).max(20),
   lastname: z.string().min(5).max(20),
-  Idea: z.string().min(3).max(30),
+  idea: z.string().min(3).max(30),
   category: z.enum(["Discussing", "Consulting", "Inquiry"]),
-  Subject: z.string().min(50).max(250),
+  subject: z.string().min(50).max(250),
   urgency: z.boolean(),
 });
 
@@ -58,10 +60,17 @@ const ScheduleMeetingModal = ({
       lastname: auth.user?.lastName ?? "",
     },
   });
+  const { mutate: addMeeting, isSuccess } = api.meetings.create.useMutation();
   function onSubmit(values: z.infer<typeof PrivateMeetingSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log("values", values);
+    addMeeting(values);
+    if (isSuccess) {
+      toast({
+        title: "Submitted Succesfully",
+        description:
+          "Your Request has been filled please waith till an admin reach you",
+      });
+    }
+    form.reset();
   }
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -108,7 +117,7 @@ const ScheduleMeetingModal = ({
             </div>
             <FormField
               control={form.control}
-              name="Idea"
+              name="idea"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>The Name of Your Idea</FormLabel>
@@ -204,6 +213,7 @@ const ScheduleMeetingModal = ({
                   <FormControl>
                     <Switch
                       checked={field.value}
+                      defaultChecked
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
@@ -212,7 +222,7 @@ const ScheduleMeetingModal = ({
             />
             <FormField
               control={form.control}
-              name="Subject"
+              name="subject"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Subject of the meet:</FormLabel>
@@ -228,7 +238,9 @@ const ScheduleMeetingModal = ({
               )}
             />
             <DialogFooter>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? "Submitting" : "Submit Request"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

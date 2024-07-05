@@ -8,6 +8,6 @@
 
 ### Admin Changes :
 
-#### Split view for users/meetings
-
 #### view all meetings
+
+#### form reset on succes

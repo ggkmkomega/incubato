@@ -18,7 +18,7 @@ import { useToast } from "./ui/use-toast";
 import advancedFormat from "dayjs/plugin/advancedFormat"; // ES 2015
 
 import dayjs from "dayjs";
-import { Toast } from "./ui/toast";
+import { PrivateMeetingSchema } from "~/types/globals";
 
 const FeaturesList = ({ admin }: { admin?: boolean }) => {
   dayjs.extend(advancedFormat);

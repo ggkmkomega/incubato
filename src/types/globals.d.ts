@@ -10,3 +10,11 @@ declare global {
     };
   }
 }
+export const PrivateMeetingSchema = z.object({
+  name: z.string().min(5).max(20),
+  lastname: z.string().min(5).max(20),
+  idea: z.string().min(3).max(30),
+  category: z.enum(["Discussing", "Consulting", "Inquiry"]),
+  subject: z.string().min(50).max(250),
+  urgency: z.boolean(),
+});
