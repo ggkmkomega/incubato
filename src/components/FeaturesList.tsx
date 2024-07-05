@@ -134,6 +134,7 @@ const FeaturesList = ({ admin }: { admin?: boolean }) => {
       />
       {!callDetails ? (
         <MeetingModal
+          className="text-center"
           title="Schedule a meet"
           handleClick={createMeet}
           onClose={() => setMeetingState(undefined)}

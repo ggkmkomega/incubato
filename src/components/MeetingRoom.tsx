@@ -9,8 +9,7 @@ import {
   SpeakerLayout,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Users, LayoutList } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import {
   DropdownMenu,
@@ -34,10 +33,14 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
   const { useCallCallingState } = useCallStateHooks();
-
   const callingState = useCallCallingState();
 
-  if (callingState !== CallingState.JOINED) return <Loeader />;
+  if (callingState !== CallingState.JOINED) {
+    if (callingState === CallingState.LEFT) {
+      router.push("/");
+    }
+    return <Loeader />;
+  }
 
   const CallLayout = () => {
     switch (layout) {
