@@ -39,7 +39,7 @@ interface ScheduleMeetingModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-export const PrivateMeetingSchema = z.object({
+const PrivateMeetingSchema = z.object({
   name: z.string().min(5).max(20),
   lastname: z.string().min(5).max(20),
   idea: z.string().min(3).max(30),
@@ -70,7 +70,6 @@ const ScheduleMeetingModal = ({
           "Your Request has been filled please waith till an admin reach you",
       });
     }
-    form.reset();
   }
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
