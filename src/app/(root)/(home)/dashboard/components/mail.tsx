@@ -10,27 +10,13 @@ import type { Mail } from "../data";
 import { MailList } from "./mail-list";
 import { MailDisplay } from "./mail-display";
 import { useMail } from "../use-mail";
+import { allMeetingsOutput } from "~/types";
 
 interface MailProps {
-  accounts: {
-    label: string;
-    email: string;
-    icon: React.ReactNode;
-  }[];
-  mails: Mail[];
-  defaultLayout: number[] | undefined;
-  defaultCollapsed?: boolean;
-  navCollapsedSize: number;
+  mails: allMeetingsOutput;
 }
 
-export function Mail({
-  accounts,
-  mails,
-  defaultLayout = [265, 440, 655],
-  defaultCollapsed = false,
-  navCollapsedSize,
-}: MailProps) {
-  const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
+export function Mail({ mails }: MailProps) {
   const [mail] = useMail();
 
   return (
@@ -67,13 +53,15 @@ export function Mail({
             <MailList items={mails} />
           </TabsContent>
           <TabsContent value="unread" className="m-0">
-            <MailList items={mails.filter((item) => !item.read)} />
+            <MailList items={mails.filter((item) => !item.urgency)} />
           </TabsContent>
         </Tabs>
       </div>
       <div className="w-full">
         <MailDisplay
-          mail={mails.find((item) => item.id === mail.selected) || null}
+          mail={
+            mails.find((item) => item.id.toString() === mail.selected) || null
+          }
         />
       </div>
     </div>

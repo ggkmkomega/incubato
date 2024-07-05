@@ -1,14 +1,14 @@
 import { ComponentProps } from "react";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 
 import { cn } from "~/lib/utils";
 import { Badge } from "~/components/ui/badge";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { Mail } from "../data";
 import { useMail } from "../use-mail";
+import { allMeetingsOutput } from "~/types";
 
 interface MailListProps {
-  items: Mail[];
+  items: allMeetingsOutput;
 }
 
 export function MailList({ items }: MailListProps) {
@@ -22,12 +22,12 @@ export function MailList({ items }: MailListProps) {
             key={item.id}
             className={cn(
               "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
-              mail.selected === item.id && "bg-muted",
+              mail.selected === item.id.toString() && "bg-muted",
             )}
             onClick={() =>
               setMail({
                 ...mail,
-                selected: item.id,
+                selected: item.id.toString(),
               })
             }
           >
@@ -35,19 +35,19 @@ export function MailList({ items }: MailListProps) {
               <div className="flex items-center">
                 <div className="flex items-center gap-2">
                   <div className="font-semibold">{item.name}</div>
-                  {!item.read && (
+                  {!item.urgency && (
                     <span className="flex h-2 w-2 rounded-full bg-blue-600" />
                   )}
                 </div>
                 <div
                   className={cn(
                     "ml-auto text-xs",
-                    mail.selected === item.id
+                    mail.selected === item.id.toString()
                       ? "text-foreground"
                       : "text-muted-foreground",
                   )}
                 >
-                  {formatDistanceToNow(new Date(item.date), {
+                  {formatDistanceToNow(new Date(item.createdAt), {
                     addSuffix: true,
                   })}
                 </div>
@@ -55,15 +55,11 @@ export function MailList({ items }: MailListProps) {
               <div className="text-xs font-medium">{item.subject}</div>
             </div>
             <div className="line-clamp-2 text-xs text-muted-foreground">
-              {item.text.substring(0, 300)}
+              {item.subject?.substring(0, 300)}
             </div>
-            {item.labels.length ? (
+            {item.category?.length ? (
               <div className="flex items-center gap-2">
-                {item.labels.map((label) => (
-                  <Badge key={label} variant={getBadgeVariantFromLabel(label)}>
-                    {label}
-                  </Badge>
-                ))}
+                <Badge>{item.category}</Badge>
               </div>
             ) : null}
           </button>

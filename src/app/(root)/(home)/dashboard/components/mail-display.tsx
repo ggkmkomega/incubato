@@ -1,4 +1,4 @@
-import format from "date-fns/format";
+import { format } from "date-fns/format";
 import { Archive, ArchiveX, MoreVertical, Trash2 } from "lucide-react";
 
 import {
@@ -14,16 +14,13 @@ import {
 
 import { Separator } from "~/components/ui/separator";
 import { Textarea } from "~/components/ui/textarea";
-
-import { Mail } from "../data";
+import { singleMeetingsOutput } from "~/types";
 
 interface MailDisplayProps {
-  mail: Mail | null;
+  mail: singleMeetingsOutput | null;
 }
 
 export function MailDisplay({ mail }: MailDisplayProps) {
-  const today = new Date();
-
   return (
     <div className=" flex h-full w-full flex-col">
       <div className="flex items-center p-2">
@@ -64,31 +61,27 @@ export function MailDisplay({ mail }: MailDisplayProps) {
           <div className="flex items-start p-4">
             <div className="flex items-start gap-4 text-sm">
               <Avatar>
-                <AvatarImage alt={mail.name} />
+                <AvatarImage alt={mail.name ?? ""} />
                 <AvatarFallback>
-                  {mail.name
-                    .split(" ")
-                    .map((chunk) => chunk[0])
-                    .join("")}
+                  {mail.name ?? "" + mail.lastname ?? ""}
                 </AvatarFallback>
               </Avatar>
               <div className="grid gap-1">
                 <div className="font-semibold">{mail.name}</div>
                 <div className="line-clamp-1 text-xs">{mail.subject}</div>
                 <div className="line-clamp-1 text-xs">
-                  <span className="font-medium">Reply-To:</span> {mail.email}
+                  <span className="font-medium">Reply-To:</span>{" "}
+                  {mail.name ?? "" + mail.lastname ?? ""}
                 </div>
               </div>
             </div>
-            {mail.date && (
-              <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(mail.date), "PPpp")}
-              </div>
-            )}
+            <div className="ml-auto text-xs text-muted-foreground">
+              {format(new Date(mail.createdAt), "PPpp")}
+            </div>
           </div>
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-            {mail.text}
+            {mail.subject}
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">

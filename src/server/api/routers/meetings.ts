@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import {
   createTRPCRouter,
@@ -20,5 +21,16 @@ export const meetingsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.insert(privateMeetings).values(input);
+    }),
+
+  getAllMeetings: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.db.query.privateMeetings.findMany();
+  }),
+  getSingleMeeting: protectedProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      return ctx.db.query.privateMeetings.findFirst({
+        where: eq(privateMeetings.id, input),
+      });
     }),
 });
