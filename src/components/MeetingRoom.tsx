@@ -66,7 +66,7 @@ const MeetingRoom = () => {
           <CallParticipantsList onClose={() => setShowParticipants(false)} />
         </div>
       </div>
-      <div className="fixed bottom-0 flex w-full flex-wrap items-center justify-center gap-5 overflow-hidden">
+      <div className="fixed bottom-0 z-50 flex w-full flex-wrap items-center justify-center gap-5   ">
         <CallControls onLeave={() => router.push(`/`)} />
         <DropdownMenu>
           <DropdownMenuTrigger className=" cursor-pointer rounded-2xl bg-primary-foreground px-4 py-2 hover:bg-primary">
