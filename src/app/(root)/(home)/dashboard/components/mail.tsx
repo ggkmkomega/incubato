@@ -6,19 +6,18 @@ import { Search } from "lucide-react";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import type { Mail } from "../data";
 import { MailList } from "./mail-list";
 import { MailDisplay } from "./mail-display";
-import { useMail } from "../use-mail";
-import { allMeetingsOutput } from "~/types";
+import { allMeetingsOutput, singleMeetingsOutput } from "~/types";
 
 interface MailProps {
   mails: allMeetingsOutput;
 }
 
 export function Mail({ mails }: MailProps) {
-  const [mail] = useMail();
-
+  const [selected, setSelected] = React.useState<
+    singleMeetingsOutput["id"] | null
+  >(null);
   return (
     <div className="flex gap-5">
       <div>
@@ -50,18 +49,24 @@ export function Mail({ mails }: MailProps) {
             </form>
           </div>
           <TabsContent value="all" className="m-0">
-            <MailList items={mails} />
+            <MailList
+              items={mails}
+              selected={selected}
+              setSelected={setSelected}
+            />
           </TabsContent>
           <TabsContent value="unread" className="m-0">
-            <MailList items={mails.filter((item) => !item.urgency)} />
+            <MailList
+              items={mails.filter((item) => !item.urgency)}
+              selected={selected}
+              setSelected={setSelected}
+            />
           </TabsContent>
         </Tabs>
       </div>
       <div className="w-full">
         <MailDisplay
-          mail={
-            mails.find((item) => item.id.toString() === mail.selected) || null
-          }
+          mail={mails.find((item) => item.id === selected) || null}
         />
       </div>
     </div>
