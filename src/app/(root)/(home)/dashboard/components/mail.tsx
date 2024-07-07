@@ -66,7 +66,7 @@ export function Mail({ mails }: MailProps) {
       </div>
       <div className="w-full">
         <MailDisplay
-          mail={mails.find((item) => item.id === selected) || null}
+          mail={mails.find((item) => item.id === selected) ?? null}
         />
       </div>
     </div>
