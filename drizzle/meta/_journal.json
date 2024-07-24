@@ -22,6 +22,20 @@
       "when": 1720217864453,
       "tag": "0002_superb_tusk",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1720446285489,
+      "tag": "0003_last_nicolaos",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1720446537284,
+      "tag": "0004_chubby_george_stacy",
+      "breakpoints": true
     }
   ]
 }

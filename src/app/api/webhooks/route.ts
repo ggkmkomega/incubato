@@ -51,10 +51,13 @@ export async function POST(req: Request) {
   }
 
   // Do something with the payload
-  // For this guide, you simply log the payload to the console
   if (evt.type === "user.created") {
-    console.log("userId:", evt.data.id);
-    await api.post.testDb(evt.data.first_name ?? "");
+    await api.users.create({
+      id: evt.data.id,
+      name: evt.data.first_name ?? "",
+      lastname: evt.data.last_name ?? "",
+      pic: evt.data.image_url,
+    });
   }
 
   return new Response("", { status: 200 });

@@ -20,7 +20,9 @@ export const meetingsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(privateMeetings).values(input);
+      await ctx.db
+        .insert(privateMeetings)
+        .values({ ...input, authorId: ctx.session.userId });
     }),
 
   getAllMeetings: protectedProcedure.query(async ({ ctx }) => {
@@ -31,6 +33,9 @@ export const meetingsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return ctx.db.query.privateMeetings.findFirst({
         where: eq(privateMeetings.id, input),
+        with: {
+          author: true,
+        },
       });
     }),
 });
