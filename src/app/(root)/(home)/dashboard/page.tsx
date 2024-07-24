@@ -15,11 +15,13 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import DisplayUsers from "./_display-users";
 import Meetings from "./_display-meetings";
+import { api } from "~/trpc/server";
 
 export default async function AdminDashboard(params: {
   searchParams: { search?: string };
 }) {
-  if (!checkRole("admin")) {
+  const isAdmin = checkRole("admin");
+  if (!isAdmin) {
     redirect("/");
   }
 
@@ -28,6 +30,7 @@ export default async function AdminDashboard(params: {
   const users = query
     ? (await clerkClient.users.getUserList({ query })).data
     : [];
+  const meetings = isAdmin ? await api.meetings.getAllMeetings() : [];
 
   return (
     <>
@@ -55,7 +58,7 @@ export default async function AdminDashboard(params: {
         <TabsContent value="Private">
           <Card>
             <CardContent>
-              <Meetings />
+              <Meetings meetings={meetings} />
             </CardContent>
           </Card>
         </TabsContent>
