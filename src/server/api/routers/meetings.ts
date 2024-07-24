@@ -25,7 +25,7 @@ export const meetingsRouter = createTRPCRouter({
         .values({ ...input, authorId: ctx.session.userId });
     }),
 
-  getAllMeetings: protectedProcedure.query(async ({ ctx }) => {
+  getAllMeetings: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.query.privateMeetings.findMany();
   }),
   getSingleMeeting: protectedProcedure
