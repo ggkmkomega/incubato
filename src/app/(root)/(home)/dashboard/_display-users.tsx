@@ -9,7 +9,6 @@ interface DisplayUserProps {
 const DisplayUsers = ({ users }: DisplayUserProps) => {
   return (
     <div>
-      {" "}
       {users.map((user) => {
         return (
           <div key={user.id} className="p-4">
