@@ -30,7 +30,7 @@ export default async function AdminDashboard(params: {
   const users = query
     ? (await clerkClient.users.getUserList({ query })).data
     : [];
-  const usersquery = await api.meetings.getAllUser();
+  const meetings = await api.meetings.getAllMeetings();
 
   return (
     <>
@@ -58,14 +58,7 @@ export default async function AdminDashboard(params: {
         <TabsContent value="Private">
           <Card>
             <CardContent>
-              {/* <Meetings meetings={meetings} /> */}
-              {usersquery.map((user) => {
-                return (
-                  <>
-                    <div>{user.name}</div>
-                  </>
-                );
-              })}
+              <Meetings meetings={meetings} />
             </CardContent>
           </Card>
         </TabsContent>
