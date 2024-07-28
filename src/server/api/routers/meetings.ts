@@ -26,7 +26,10 @@ export const meetingsRouter = createTRPCRouter({
     }),
 
   getAllMeetings: publicProcedure.query(async ({ ctx }) => {
-    return ["hiya"];
+    return ctx.db.query.privateMeetings.findMany();
+  }),
+  testQuery: publicProcedure.query(async ({ ctx }) => {
+    return "Test";
   }),
   getAllUser: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.query.users.findMany();
